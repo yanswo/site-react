@@ -90,12 +90,12 @@
   background-color: #01264d;
 }
 
-.tema-claro {
+body.tema-claro {
   background-color: rgba(211, 208, 208, 0.744);
   color: black;
 }
 
-.tema-claro button {
+body.tema-claro button {
   background-color: #000000;
   color: white;
   border-radius: 5px;
@@ -103,12 +103,12 @@
   font-size: 24px;
 }
 
-.tema-escuro {
+body.tema-escuro {
   background-color: #282c34;
   color: white;
 }
 
-.tema-escuro button {
+body.tema-escuro button {
   border: none;
   border-radius: 5px;
   font-size: 24px;
