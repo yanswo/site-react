@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Prototipo de site feito em ReactJS, JSX, HTML, CSS
+
+Atualmente esta em desenvolvimento, estou criando esse site para aperfeiçoar minhas habilidades com o React.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
