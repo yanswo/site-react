@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function MenuLateral() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -17,6 +18,10 @@ function MenuLateral() {
       return novoTema;
     });
   };
+
+  useEffect(() => {
+    document.body.className = temaEscuro ? "tema-escuro" : "tema-claro";
+  }, [temaEscuro]);
 
   return (
     <div className={`App ${temaEscuro ? "tema-escuro" : "tema-claro"}`}>
