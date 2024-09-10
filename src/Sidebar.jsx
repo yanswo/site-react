@@ -9,7 +9,7 @@ function MenuLateral() {
 
   return (
     <div>
-      {/*Botão para abrir/Fechar o menu*/}
+      
       <button className="botao-toggle" onClick={alternarMenu}>
         {menuAberto ? (
           <i className="fas fa-times"></i>
@@ -18,7 +18,7 @@ function MenuLateral() {
         )}
       </button>
 
-      {/* Condicionalmente renderizar o menu com base no estado */}
+      
 
       <div className={`menu-lateral ${menuAberto ? "ativo" : ""}`}>
         <ul>
