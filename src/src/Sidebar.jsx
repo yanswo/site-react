@@ -6,6 +6,9 @@ function MenuLateral() {
   const [temaEscuro, setTemaEscuro] = useState(
     () => localStorage.getItem("temaEscuro") === "true"
   );
+  const [authState, setAuthState] = useState("login");
+  const [usuarioAutenticado, setUsuarioAutenticado] = useState(false);
+  const [nomeUsuario, setNomeUsuario] = useState("");
 
   const AlternarMenu = () => {
     setMenuAberto(!menuAberto);
@@ -24,8 +27,7 @@ function MenuLateral() {
   }, [temaEscuro]);
 
   return (
-    <div className={`App ${temaEscuro ? "tema-escuro" : "tema-claro"}`}>
-      {/* Botão para abrir/fechar o menu lateral */}
+    <div>
       <button className="botao-toggle" onClick={AlternarMenu}>
         {menuAberto ? (
           <i className="fas fa-times"></i>
@@ -34,12 +36,9 @@ function MenuLateral() {
         )}
       </button>
 
-      {/* Menu lateral */}
       <div className={`menu-lateral ${menuAberto ? "ativo" : ""}`}>
         <ul>
           <h1>Bem-Vindo!</h1>
-
-          {/* Botão de alternância de tema */}
           <li>
             <button onClick={alternarTema}>
               {temaEscuro ? (
@@ -49,19 +48,159 @@ function MenuLateral() {
               )}
             </button>
           </li>
-
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
+          {!usuarioAutenticado ? (
+            <>
+              <li>
+                <button onClick={() => setAuthState("login")}>Login</button>
+              </li>
+              <li>
+                <button onClick={() => setAuthState("cadastro")}>
+                  Cadastro
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button
+                onClick={() => {
+                  setUsuarioAutenticado(false);
+                  setNomeUsuario("");
+                }}
+              >
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
+
+        {authState === "login" && !usuarioAutenticado && (
+          <LoginForm
+            onLogin={(nome) => {
+              setUsuarioAutenticado(true);
+              setNomeUsuario(nome);
+            }}
+          />
+        )}
+        {authState === "cadastro" && !usuarioAutenticado && <CadastroForm />}
+        {usuarioAutenticado && <WelcomeMessage nome={nomeUsuario} />}
       </div>
 
-      {/* Conteúdo do site */}
       <header className="App-header">
         <p>Este é um exemplo de tema claro e escuro.</p>
       </header>
     </div>
   );
 }
+
+const LoginForm = ({ onLogin }) => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [nome, setNome] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    console.log("Login", email, senha);
+    onLogin(nome);
+  };
+
+  return (
+    <form onSubmit={handleLogin}>
+      <h2>Login</h2>
+      <label>
+        Nome:
+        <input
+          type="text"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Email:
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Senha:
+        <input
+          type="password"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          required
+        />
+      </label>
+      <button type="submit">Entrar</button>
+    </form>
+  );
+};
+
+const CadastroForm = () => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [nome, setNome] = useState("");
+
+  const handleCadastro = (e) => {
+    e.preventDefault();
+
+    if (senha === confirmarSenha) {
+      console.log("Cadastro", nome, email, senha);
+    } else {
+      console.log("Senhas não coincidem");
+    }
+  };
+
+  return (
+    <form onSubmit={handleCadastro}>
+      <h2>Cadastro</h2>
+      <label>
+        Nome:
+        <input
+          type="text"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Email:
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Senha:
+        <input
+          type="password"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Confirmar Senha:
+        <input
+          type="password"
+          value={confirmarSenha}
+          onChange={(e) => setConfirmarSenha(e.target.value)}
+          required
+        />
+      </label>
+      <button type="submit">Cadastrar</button>
+    </form>
+  );
+};
+
+const WelcomeMessage = ({ nome }) => {
+  return <h2>Bem-vindo, {nome}!</h2>;
+};
 
 export default MenuLateral;
